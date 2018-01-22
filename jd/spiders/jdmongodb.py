@@ -100,9 +100,10 @@ class Myspider(RedisSpider):
         ]
 
     i = 0 #商品个数
-    list = set()  # 用于存构造偶数页面的pid
+      # 用于存构造偶数页面的pid
     #奇数页
     def parse(self, response):
+        list = set()
         try:
             time.sleep(random.uniform(0.5, 3))
             header = {
@@ -116,15 +117,15 @@ class Myspider(RedisSpider):
             for box in response.xpath('//ul[@class="gl-warp clearfix"]/li'):
                 item = MongodbItem()
                 item['pid'] = box.xpath('.//@data-sku').extract()[0]
-                if item['pid'] not in self.list:
-                    self.list.add(item['pid'])
+                if item['pid'] not in list:
+                    list.add(item['pid'])
                 item['url'] = 'https://item.jd.com/{}.html'.format(str(item['pid'] ))
                 item['price'] = box.xpath('.//div/div[@class="p-price"]/strong/i/text()').extract()[0]
-                yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item}, headers=header,
-                                     dont_filter=True)
-            show_items = ','.join(self.list)
+                yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item}, headers=header,dont_filter=True)
+            show_items = ','.join(list)
+            print('******' + str(show_items))
             for keywords in open('D:\\Scrapy\\jd\\jd\\keywords.txt', encoding='utf-8'):
-                keyword = urllib.request.quote(keywords).replace('\n','')
+                keyword = urllib.request.quote(keywords).replace('\\n','')
                 headers = {
                     'Accept': '*/*',
                     'Accept-Language': 'zh-CN,zh;q=0.9',
@@ -147,7 +148,7 @@ class Myspider(RedisSpider):
             'Accept': '*/*',
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Connection': 'keep-alive',
-            'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&cid2=653&cid3=655&page=1&s=1&click=0'.format(str(keyword)),
+            'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=1&s=1&click=0'.format(str(keyword)),
             'User-Agent': random.choice(self.USER_AGENTS)
                 }
         for box in response.xpath('//li[@class="gl-item"]'):
@@ -191,9 +192,3 @@ class Myspider(RedisSpider):
                 yield item_comment
         except:
             pass
-
-
-
-
-
-
