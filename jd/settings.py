@@ -27,14 +27,16 @@ SCHEDULER_PERSIST = True
 #LOG_LEVEL = "DEBUG"
 #mongodb
 MONGODB_URI = 'mongodb://10.2.1.87:27017/'
-MONGODB_HOST = "10.2.1.87"
+# MONGODB_HOST = "10.2.1.87"
+MONGODB_HOST="127.0.0.1"
 MONGODB_PORT = 27017
 MONGODB_DB = "jd"
 MONGODB_DC_jd_goods = "ec_jd_goods"
 MONGODB_DC_jd_goods_comment = "ec_jd_goods_comment"
 
 #redis
-REDIS_HOST = "10.2.1.87"
+# REDIS_HOST = "10.2.1.87"
+REDIS_HOST = "127.0.0.1"
 REDIS_PORT = 6379
 REDIS_DB = 0
 MY_REDIS = 'jd_spider:start_urls' #redis数据表
@@ -83,7 +85,7 @@ DOWNLOADER_MIDDLEWARES = {
     'jd.useragent.UserAgent':50,
     #'jd.middlewares.MyCustomDownloaderMiddleware': 543,
      'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 90,
-     'jd.middlewares.ProxyMiddleware':100,
+     # 'jd.middlewares.ProxyMiddleware':100,
 }
 
 # Enable or disable extensions

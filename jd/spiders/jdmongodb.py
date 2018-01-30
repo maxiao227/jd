@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from scrapy_redis.spiders import RedisSpider
-from jd.items import MongodbItem,MongodbCommentItem
+from jd.items import MongodbItem, MongodbCommentItem
 import re
 import scrapy
 import time
@@ -11,8 +11,8 @@ import urllib.request
 class Myspider(RedisSpider):
     name = 'mongodburl'
     custom_settings = {
-        'ITEM_PIPELINES':{
-            'jd.pipelines.MongodbPipeline':300,
+        'ITEM_PIPELINES': {
+            'jd.pipelines.MongodbPipeline': 300,
         }
     }
     redis_key = 'jd_spider:start_urls'
@@ -97,11 +97,12 @@ class Myspider(RedisSpider):
         "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko",
         "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36"
-        ]
+    ]
 
-    i = 0 #商品个数
-      # 用于存构造偶数页面的pid
-    #奇数页
+    i = 0  # 商品个数
+
+    # 用于存构造偶数页面的pid
+    # 奇数页
     def parse(self, response):
         list = set()
         try:
@@ -119,76 +120,87 @@ class Myspider(RedisSpider):
                 item['pid'] = box.xpath('.//@data-sku').extract()[0]
                 if item['pid'] not in list:
                     list.add(item['pid'])
-                item['url'] = 'https://item.jd.com/{}.html'.format(str(item['pid'] ))
+                item['url'] = 'https://item.jd.com/{}.html'.format(str(item['pid']))
                 item['price'] = box.xpath('.//div/div[@class="p-price"]/strong/i/text()').extract()[0]
-                yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item}, headers=header,dont_filter=True)
+                yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item}, headers=header,
+                                     dont_filter=True)
             show_items = ','.join(list)
             print('******' + str(show_items))
-            for keywords in open('D:\\Scrapy\\jd\\jd\\keywords.txt', encoding='utf-8'):
-                keyword = urllib.request.quote(keywords).replace('\\n','')
+            for keywords in open('./keywords.txt', encoding='utf-8'):
+                keyword = urllib.request.quote(keywords).replace('\\n', '')
                 headers = {
                     'Accept': '*/*',
                     'Accept-Language': 'zh-CN,zh;q=0.9',
                     'Connection': 'keep-alive',
                     'Host': 'search.jd.com',
-                    'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&suggest=1.def.0.V09&cid2=653&cid3=655&page=5&s=111&click=0'.format(str(keyword)),
+                    'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&suggest=1.def.0.V09&cid2=653&cid3=655&page=5&s=111&click=0'.format(
+                        str(keyword)),
                     'User-Agent': random.choice(self.USER_AGENTS)
                 }
                 for i in range(2, 10, 2):
-                    next_page = 'https://search.jd.com/s_new.php?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&cid2=653&cid3=655&page={}&s=137&scrolling=y&log_id=1516012634.78568&tpl=3_M&show_items={}'.format(str(keyword),str(i),str(show_items))
-                    print('**********'+next_page)
-                    yield scrapy.Request(next_page,callback=self.parse_next_page,headers=headers,meta={'keyword':keyword})
+                    next_page = 'https://search.jd.com/s_new.php?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&cid2=653&cid3=655&page={}&s=137&scrolling=y&log_id=1516012634.78568&tpl=3_M&show_items={}'.format(
+                        str(keyword), str(i), str(show_items))
+                    print('**********' + next_page)
+                    yield scrapy.Request(next_page, callback=self.parse_next_page, headers=headers,
+                                         meta={'keyword': keyword})
         except:
             pass
 
     # 偶数页
-    def parse_next_page(self,response):
+    def parse_next_page(self, response):
         keyword = response.meta['keyword']
         headers = {
             'Accept': '*/*',
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Connection': 'keep-alive',
-            'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=1&s=1&click=0'.format(str(keyword)),
+            'Referer': 'https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=1&s=1&click=0'.format(
+                str(keyword)),
             'User-Agent': random.choice(self.USER_AGENTS)
-                }
+        }
         for box in response.xpath('//li[@class="gl-item"]'):
             item = MongodbItem()
             item['pid'] = box.xpath('.//@data-sku').extract()[0]
             item['url'] = 'https://item.jd.com/{}.html'.format(str(item['pid']))
             item['price'] = box.xpath('.//div/div[@class="p-price"]/strong/i/text()').extract()[0]
-            yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item},headers=headers,dont_filter=True)
+            yield scrapy.Request(item['url'], callback=self.parse_detail, meta={'item': item}, headers=headers,
+                                 dont_filter=True)
 
-
-
-    def parse_detail(self,response):
+    def parse_detail(self, response):
         try:
-            time.sleep(random.uniform(0.5,3))
+            time.sleep(random.uniform(0.5, 3))
             item = response.meta['item']
             item_comment = MongodbCommentItem()
             self.i += 1
             print('*****已爬取{}个商品数据*****'.format(self.i))
-            item['title'] = str(response.xpath('string(//div[@class="sku-name"])').extract()[0]).strip().replace(' ','')
-            item['shuxing'] = str(response.xpath('string(//div[@class="p-parameter"])').extract()[0])\
-                 .strip().replace(' ','').replace('\n','').replace('\xa0','').replace('更多参数>>','')
+            item['title'] = str(response.xpath('string(//div[@class="sku-name"])').extract()[0]).strip().replace(' ',
+                                                                                                                 '')
+            item['shuxing'] = str(response.xpath('string(//div[@class="p-parameter"])').extract()[0]) \
+                .strip().replace(' ', '').replace('\n', '').replace('\xa0', '').replace('更多参数>>', '')
             item_comment['pid'] = item['pid']
             yield item
 
             # 评论页数回调
             for i in range(3):
-                comment_url = 'https://sclub.jd.com/comment/productPageComments.action?callback=fetchJSON_comment98vv{}&productId={}&score=0&sortType=5&page={}&pageSize=10&isShadowSku=0&fold=1'.format(str(random.randint(10000,100000)),str(item_comment['pid']),str(i))
-                yield scrapy.Request(comment_url,callback=self.parse_comment,meta={'item_comment':item_comment},dont_filter=True)
+                comment_url = 'https://sclub.jd.com/comment/productPageComments.action?callback=fetchJSON_comment98vv{}&productId={}&score=0&sortType=5&page={}&pageSize=10&isShadowSku=0&fold=1'.format(
+                    str(random.randint(10000, 100000)), str(item_comment['pid']), str(i))
+                yield scrapy.Request(comment_url, callback=self.parse_comment, meta={'item_comment': item_comment},
+                                     dont_filter=True)
         except:
             pass
 
-
-    def parse_comment(self,response):
+    def parse_comment(self, response):
         try:
             item_comment = response.meta['item_comment']
-            comments = re.compile('"topped":0,"content":"(.*?)","creationTime').findall(response.text)
+            comments = re.compile('"content":"(.*?)","creationTime').findall(response.text)
+            score = re.compile('"score":(\d),"status":').findall(response.text)
             pubtimes = re.compile('"creationTime":"(.*?)","').findall(response.text)
-            for a,b in zip(comments,pubtimes):
-                item_comment['comment'] = str(re.sub('<.*?>','',a)).strip().replace(' ','').replace('\\n','').replace('&quot;','')
-                item_comment['pubtime'] = b.strip()
+            usefulVoteCount=re.compile('"usefulVoteCount":(\d)+,"uselessVoteCount":').findall(response.text)
+            for a, b, c,d in zip(comments, pubtimes, score,usefulVoteCount):
+                item_comment['comment'] = a.strip().replace('"content":','').replace(',"creationTime', '').replace(' ', '').replace('\\n', '').replace('&quot;', '')
+                item_comment['pubtime'] = b.strip().replace('"creationTime":','').replace(',"','')
+                item_comment['score'] = c.strip().replace('"score":', '').replace(',"status":','')
+                item_comment['usefulVoteCount'] = d.strip().replace('"usefulVoteCount":', '').replace(
+                    ',"uselessVoteCount":', '')
                 yield item_comment
         except:
             pass

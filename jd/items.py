@@ -12,6 +12,7 @@ import scrapy
 class RedisItem(scrapy.Item):
     url = scrapy.Field()
 
+
 class MongodbItem(scrapy.Item):
     url = scrapy.Field()
     title = scrapy.Field()
@@ -19,7 +20,10 @@ class MongodbItem(scrapy.Item):
     pid = scrapy.Field()
     shuxing = scrapy.Field()
 
+
 class MongodbCommentItem(scrapy.Item):
     pid = scrapy.Field()
     comment = scrapy.Field()
     pubtime = scrapy.Field()
+    score = scrapy.Field()
+    usefulVoteCount = scrapy.Field()
