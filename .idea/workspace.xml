@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="01f59940-ed35-4285-b282-2f916812408a" name="默认的" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/mongoSettings.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/jd/begin.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/jd.iml" afterPath="$PROJECT_DIR$/.idea/jd.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="01f59940-ed35-4285-b282-2f916812408a" name="默认的" comment="进行代码format，增添了商品的评价分数和对应评论的点赞数，放到对评论进行分析">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/jd/items.py" afterPath="$PROJECT_DIR$/jd/items.py" />
-      <change beforePath="$PROJECT_DIR$/jd/middlewares.py" afterPath="$PROJECT_DIR$/jd/middlewares.py" />
-      <change beforePath="$PROJECT_DIR$/jd/pipelines.py" afterPath="$PROJECT_DIR$/jd/pipelines.py" />
-      <change beforePath="$PROJECT_DIR$/jd/settings.py" afterPath="$PROJECT_DIR$/jd/settings.py" />
-      <change beforePath="$PROJECT_DIR$/jd/spiders/jdmongodb.py" afterPath="$PROJECT_DIR$/jd/spiders/jdmongodb.py" />
-      <change beforePath="$PROJECT_DIR$/jd/spiders/jdredisurl.py" afterPath="$PROJECT_DIR$/jd/spiders/jdredisurl.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,8 +39,8 @@
       <file leaf-file-name="pipelines.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jd/pipelines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="43" column="45" lean-forward="true" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
+            <state relative-caret-position="218">
+              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding>
                 <element signature="e#193#205#0" expanded="true" />
               </folding>
@@ -236,6 +224,14 @@
       <option name="presentableId" value="Default" />
       <updated>1512379479690</updated>
     </task>
+    <task id="LOCAL-00001" summary="进行代码format，增添了商品的评价分数和对应评论的点赞数，放到对评论进行分析">
+      <created>1517304928804</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1517304928804</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -255,7 +251,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4905028" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="1.0" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.66927373" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8703911" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -300,6 +296,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="进行代码format，增添了商品的评价分数和对应评论的点赞数，放到对评论进行分析" />
+    <option name="LAST_COMMIT_MESSAGE" value="进行代码format，增添了商品的评价分数和对应评论的点赞数，放到对评论进行分析" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -389,6 +389,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -460,8 +461,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jd/pipelines.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="43" column="45" lean-forward="true" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
+        <state relative-caret-position="218">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
             <element signature="e#193#205#0" expanded="true" />
           </folding>
